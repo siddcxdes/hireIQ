@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+python-dotenv
+httpx
+python-multipart
+pydantic
+alembic
+pymupdf
+python-docx
