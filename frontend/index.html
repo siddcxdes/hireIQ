@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HireIQ — Resume Intelligence</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%233d3aff%22/><text x=%2250%22 y=%2274%22 font-family=%22sans-serif%22 font-size=%2268%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>H</text></svg>">
   <link
     href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet" />
@@ -834,10 +835,80 @@
 
 <body>
 
-  <nav>
-    <div class="logo">Hire<span>IQ</span></div>
-    <div class="nav-badge">Beta</div>
+    <nav>
+    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="showPage('page-home')">
+        <div class="logo">Hire<span>IQ</span></div>
+        <div class="nav-badge">Beta</div>
+    </div>
+    <div class="nav-links" style="display: flex; gap: 24px; align-items: center;">
+      <button id="navLoginBtn" onclick="showPage('page-login')" style="background: none; border: none; font-size: 15px; font-weight: 600; color: var(--text); cursor: pointer;">Login</button>
+      <button id="navSignupBtn" onclick="showPage('page-signup')" style="background: none; border: none; font-size: 15px; font-weight: 600; color: var(--accent); cursor: pointer;">Sign Up</button>
+      <button id="navHistoryBtn" onclick="loadHistory()" style="display: none; background: none; border: none; font-size: 15px; font-weight: 600; color: var(--text); cursor: pointer;">History</button>
+      <button id="navLogoutBtn" onclick="logout()" style="display: none; background: none; border: none; font-size: 15px; font-weight: 600; color: var(--muted); cursor: pointer;">Logout</button>
+    </div>
   </nav>
+
+
+  <!-- Auth Pages -->
+  <div class="page" id="page-login">
+    <div class="inner-page" style="max-width: 480px;">
+      <div class="card" style="padding: 48px 40px; text-align: left;">
+        <div class="page-header" style="text-align: left; margin-bottom: 32px;">
+          <div class="page-title" style="font-size: 28px; line-height: 1.2;">Welcome Back</div>
+          <div class="page-sub" style="font-size: 15px; margin: 8px 0 0;">Log in to track your resume screening history.</div>
+        </div>
+        <div id="loginErr" style="display: none; background: var(--accent2-light); color: var(--accent2); padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 24px; border: 1px solid rgba(212, 56, 13, 0.2);"></div>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Username</label>
+          <input type="text" id="loginUser" style="width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--surface2); outline: none; transition: all 0.2s;" placeholder="e.g. johndoe" onfocus="this.style.borderColor='var(--accent)'; this.style.background='#fff'" id="loginUser" onblur="this.style.borderColor='var(--border)'; this.style.background='var(--surface2)'" />
+        </div>
+        <div style="margin-bottom: 32px;">
+          <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Password</label>
+          <input type="password" id="loginPass" style="width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--surface2); outline: none; transition: all 0.2s;" placeholder="••••••••" onfocus="this.style.borderColor='var(--accent)'; this.style.background='#fff'" id="loginPass" onblur="this.style.borderColor='var(--border)'; this.style.background='var(--surface2)'" />
+        </div>
+        <button id="loginBtn" class="btn btn-primary" onclick="handleAuth('login')" style="width: 100%; font-size: 16px;">Log In</button>
+        <div style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 24px;">
+          Don't have an account? <span onclick="showPage('page-signup'); document.getElementById('signupErr').style.display='none';" style="color: var(--accent); font-weight: 600; cursor: pointer;">Sign up</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-signup">
+    <div class="inner-page" style="max-width: 480px;">
+      <div class="card" style="padding: 48px 40px; text-align: left;">
+        <div class="page-header" style="text-align: left; margin-bottom: 32px;">
+          <div class="page-title" style="font-size: 28px; line-height: 1.2;">Create Account</div>
+          <div class="page-sub" style="font-size: 15px; margin: 8px 0 0;">Start improving your resume matches today.</div>
+        </div>
+        <div id="signupErr" style="display: none; background: var(--accent2-light); color: var(--accent2); padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 24px; border: 1px solid rgba(212, 56, 13, 0.2);"></div>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Username</label>
+          <input type="text" id="signupUser" style="width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--surface2); outline: none; transition: all 0.2s;" placeholder="e.g. johndoe" onfocus="this.style.borderColor='var(--accent)'; this.style.background='#fff'" id="signupUser" onblur="this.style.borderColor='var(--border)'; this.style.background='var(--surface2)'" />
+        </div>
+        <div style="margin-bottom: 32px;">
+          <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Password</label>
+          <input type="password" id="signupPass" style="width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--surface2); outline: none; transition: all 0.2s;" placeholder="••••••••" onfocus="this.style.borderColor='var(--accent)'; this.style.background='#fff'" id="signupPass" onblur="this.style.borderColor='var(--border)'; this.style.background='var(--surface2)'" />
+        </div>
+        <button id="signupBtn" class="btn btn-primary" onclick="handleAuth('signup')" style="width: 100%; font-size: 16px;">Sign Up</button>
+        <div style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 24px;">
+          Already have an account? <span onclick="showPage('page-login'); document.getElementById('loginErr').style.display='none';" style="color: var(--accent); font-weight: 600; cursor: pointer;">Log in</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-history">
+    <div class="inner-page">
+      <button class="back-btn" onclick="showPage('page-home')">&larr; Back to modules</button>
+      <div class="page-header" style="margin-bottom: 40px;">
+        <div class="page-eyebrow">Your Profile</div>
+        <div class="page-title">Screening History</div>
+        <div class="page-sub">Review past resume matches and scores.</div>
+      </div>
+      <div id="historyList" style="max-width: 600px; margin: 0 auto; padding-bottom: 80px;"></div>
+    </div>
+  </div>
 
   <!-- Dashboard -->
   <div class="page active" id="page-home">
@@ -1045,6 +1116,117 @@
     const API = 'https://hireiq-k143.onrender.com';
     let allQ = [];
 
+    let userToken = localStorage.getItem("hireiq-token");
+
+    function checkAuth() {
+        if (userToken) {
+            document.getElementById("navLoginBtn").style.display = "none";
+            document.getElementById("navSignupBtn").style.display = "none";
+            document.getElementById("navHistoryBtn").style.display = "inline-block";
+            document.getElementById("navLogoutBtn").style.display = "inline-block";
+        } else {
+            document.getElementById("navLoginBtn").style.display = "inline-block";
+            document.getElementById("navSignupBtn").style.display = "inline-block";
+            document.getElementById("navHistoryBtn").style.display = "none";
+            document.getElementById("navLogoutBtn").style.display = "none";
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("hireiq-token");
+        userToken = null;
+        checkAuth();
+        showPage("page-home");
+    }
+
+    async function handleAuth(type) {
+        const user = document.getElementById(type + "User").value.trim();
+        const pass = document.getElementById(type + "Pass").value.trim();
+        const errBox = document.getElementById(type + "Err");
+        const btn = document.getElementById(type + "Btn");
+        errBox.style.display = "none";
+        
+        if (!user || !pass) {
+            errBox.textContent = "Please enter both username and password.";
+            errBox.style.display = "block";
+            return;
+        }
+
+        const ogText = btn.textContent;
+        btn.textContent = "Please wait...";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+
+        try {
+            const res = await fetch(`${API}/${type}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: user, password: pass })
+            });
+            const data = await res.json();
+            
+            if (data.token) {
+                localStorage.setItem("hireiq-token", data.token);
+                userToken = data.token;
+                checkAuth();
+                document.getElementById(type + "User").value = "";
+                document.getElementById(type + "Pass").value = "";
+                showPage("page-home");
+            } else if (data.error === "exists") {
+                errBox.textContent = "Username already exists! Try logging in.";
+                errBox.style.display = "block";
+            } else if (data.error === "invalid") {
+                errBox.textContent = "Incorrect username or password.";
+                errBox.style.display = "block";
+            } else {
+                errBox.textContent = "Authentication failed. Please try again.";
+                errBox.style.display = "block";
+            }
+        } catch (e) {
+            errBox.textContent = "Unable to connect to the server. Please check your connection.";
+            errBox.style.display = "block";
+        } finally {
+            btn.textContent = ogText;
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+    }
+
+    async function loadHistory() {
+        if (!userToken) return showPage("page-login");
+        showPage("page-history");
+        document.getElementById("historyList").innerHTML = "<p style='text-align: center; color: var(--muted);'>Loading your history...</p>";
+        try {
+            const res = await fetch(`${API}/history?token=${userToken}`);
+            const data = await res.json();
+            if (data.length === 0) {
+                document.getElementById("historyList").innerHTML = "<p style='text-align: center; color: var(--muted); padding: 40px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);'>No history yet. Start screening!</p>";
+                return;
+            }
+            let html = "";
+            data.forEach(item => {
+                html += `
+                    <div class="card" style="padding: 24px; margin-bottom: 16px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 700; font-size: 17px; margin-bottom: 4px;">${item.filename}</div>
+                            <div style="font-size: 13px; color: var(--muted);">Analyzed on: ${new Date(item.uploaded).toLocaleString()}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: 800; font-size: 24px; color: var(--accent);">${item.score ? item.score.toFixed(0) + "%" : "Pending"}</div>
+                            <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); letter-spacing: 0.5px;">Match</div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById("historyList").innerHTML = html;
+        } catch (e) {
+            document.getElementById("historyList").innerHTML = "<p style='text-align: center; color: var(--accent2);'>Failed to load history.</p>";
+        }
+    }
+
+    checkAuth();
+
+
     function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -1095,6 +1277,7 @@
     }
 
     async function runScreener() {
+      if (!userToken) { showPage('page-login'); return; }
       hideErr('sc-err-file'); hideErr('sc-err-jd');
       const file = document.getElementById('sc-file').files[0];
       const jd = document.getElementById('sc-jd').value.trim();
@@ -1107,8 +1290,10 @@
       document.getElementById('sc-btn-text').textContent = 'Uploading...';
 
       try {
-        const f1 = new FormData(); f1.append('file', file);
-        const r1 = await fetch(`${API}/upload-resume`, { method: 'POST', body: f1 });
+        const f1 = new FormData();
+      f1.append('file', file);
+      if (userToken) f1.append('token', userToken);
+      const r1 = await fetch(`${API}/upload-resume`, { method: 'POST', body: f1 });
         if (!r1.ok) throw new Error('upload');
         const d1 = await r1.json();
 
@@ -1150,6 +1335,7 @@
     }
 
     async function runInterviewPrep() {
+      if (!userToken) { showPage('page-login'); return; }
       hideErr('iq-err-file'); hideErr('iq-err-jd');
       const file = document.getElementById('iq-file').files[0];
       const jd = document.getElementById('iq-jd').value.trim();
@@ -1162,8 +1348,10 @@
       document.getElementById('iq-btn-text').textContent = 'Uploading...';
 
       try {
-        const f1 = new FormData(); f1.append('file', file);
-        const r1 = await fetch(`${API}/upload-resume`, { method: 'POST', body: f1 });
+        const f1 = new FormData();
+      f1.append('file', file);
+      if (userToken) f1.append('token', userToken);
+      const r1 = await fetch(`${API}/upload-resume`, { method: 'POST', body: f1 });
         if (!r1.ok) throw new Error('upload');
         const d1 = await r1.json();
 
