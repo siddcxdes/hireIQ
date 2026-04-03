@@ -8,4 +8,4 @@ python-multipart
 pydantic
 alembic
 pymupdf
-python-docx
+python-docxpython-dotenv
