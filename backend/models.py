@@ -2,10 +2,18 @@ from sqlalchemy import Column, Integer, String, Float, Text, DateTime
 from datetime import datetime
 from database import Base
 
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True)
+    password = Column(String)
+    token = Column(String, unique=True)
+
 class Resume(Base):
     __tablename__ = "resumes"
 
     id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, index=True)
     filename = Column(String)
     content = Column(Text)
     uploaded_at = Column(DateTime, default=datetime.utcnow)
